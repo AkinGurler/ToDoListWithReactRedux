@@ -1,5 +1,3 @@
-import { ADD, DEL, TOGGLE } from "../actions";
-
 const INITIAL_STATE = {
   liste: [
     { id: 1, baslik: "Alisveris Yap", tamamlandi: false },

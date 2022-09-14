@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "./styles.css";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToDo, toggleToDo, delToDo } from "./actions";
 
-const App = (props) => {
+const App = () => {
   const [text, setText] = useState(""); //yazılan her harfi reduxta tutmaya gerekyok
   // o yüzden local stage oluşturduk
+  const liste = useSelector((state) => state.liste);
+  const dispatch = useDispatch();
 
   return (
     <div className="App">
@@ -19,16 +21,16 @@ const App = (props) => {
         <button
           onClick={() => {
             setText("");
-            props.addToDo(text);
+            dispatch(addToDo(text));
           }}
         >
           Ekle
         </button>
       </div>
       <div className="liste">
-        {props.liste.map((item) => (
+        {liste.map((item) => (
           <div
-            onClick={() => props.toggleToDo(item.id)}
+            onClick={() => dispatch(toggleToDo(item.id))}
             key={item.id}
             className={item.tamamlandi ? "yapildi" : ""}
           >
@@ -36,17 +38,11 @@ const App = (props) => {
           </div>
         ))}
       </div>
-      <button onClick={() => props.delToDo()} className="temizle">
+      <button onClick={() => dispatch(delToDo())} className="temizle">
         Tamamlananları Temizle
       </button>
     </div>
   );
 };
 
-const mapStoreToProps = (state) => {
-  return {
-    liste: state.liste
-  };
-};
-
-export default connect(mapStoreToProps, { addToDo, toggleToDo, delToDo })(App);
+export default App;
